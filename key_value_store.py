@@ -1,33 +1,40 @@
 import struct
 import pickle
+from typing import Optional
 
 """Use select python module to handle many selections at once
 """
 
-"""A Key Value Store
-
-Project for the Bradfield of Computer Science school
+"""An in memory key value store
 """
 
 class KeyValueStore:
-    def get(self, key: str) -> str:
-        """Loads the value from store and returns the value
-        """
 
-        store = pickle.load( open( "store.pickle", "rb" ) )
-        return store.get(key, -1)
+    def get(self, key: str) -> Optional[str]:
+        store = pickle.load(open("store.pickle", "rb"))
+        return store.get(key, None)
 
     def set(self, key: str, value: str) -> None:
-        """Sets the key value pair in memory
+        """Sets the key and value pair in memory
         """     
-
         try:
-            store = pickle.load( open( "store.pickle", "rb" ) )
+            store = pickle.load(open("store.pickle", "rb"))
         except FileNotFoundError:
             store = {}
         store[key] = value
         pickle.dump( store, open( "store.pickle", "wb" ) )
     
+    def delete() -> None:
+        """Deletes a key value pair from in memory hash table
+        """
+        try:
+            store = pickle.load( open( "store.pickle", "rb" ) )
+        except FileNotFoundError:
+            store = {}
+        if key in store:
+            del store[key]
+        pickle.dump(store, open("store.pickle", "rb"))
+                
     def validate_input_set(self, user_input: str) -> bool:
         values = user_input.split(" ")
         if len(values) != 2:
